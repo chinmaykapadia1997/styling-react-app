@@ -12,3 +12,10 @@
     width: 500px;
     margin-left: 380px;
 }
+.input.invalid label{
+    color: red;
+}
+.input.invalid label{
+    background: bisque;
+    border-color: red;
+}

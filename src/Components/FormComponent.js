@@ -1,26 +1,39 @@
 import React, { useState } from "react";
-import ListComponent from "./ListComponent";
+
 import "./FormComponent.css";
 
 const FormComponent = (props) => {
   const [value, updatedValue] = useState("");
+  const [valid, isValid] = useState(true);          // For displaying validation.
 
-  const inputHandler = (data) => {
-    updatedValue(data.target.value);
+  const inputHandler = (event) => {
+    console.log("input value",event.target.value);
+    if (event.target.value.trim().length > 0) {
+      isValid(true);
+    }
+    updatedValue(event.target.value);
   };
 
   const addHandler = (e) => {
     e.preventDefault();
+    if (value.trim().length === 0) {
+      isValid(false);
+      return;
+    }
     //console.log(value);
-   props.addValue(value);
-    
+    props.addValue(value);
+    updatedValue("");
   };
-
+  //.log(props.contentData);
   return (
     <div className="container-fluid">
       <form onSubmit={addHandler}>
-        <div class="input">
-          <label for="exampleFormControlInput1" class="form-label">
+        <div class={`input ${!isValid ? 'invalid' : ''}`}>
+          <label
+            for="exampleFormControlInput1"
+            class="form-label"
+            style={{ color: !valid ? "red" : "black" }}
+          >
             Enter Text :-
           </label>
           <input
@@ -28,15 +41,16 @@ const FormComponent = (props) => {
             class="form-control"
             placeholder="Enter the value"
             onChange={inputHandler}
+            style={{ background: !valid ? "beige" : "white" }}
           />
         </div>
         <div className="btn-submit">
-          <button type="submit" className="btn btn-success" onClick={props}>
+          <button type="submit" className="btn btn-success">
             SUBMIT
           </button>
         </div>
       </form>
-      <ListComponent/>
+      
     </div>
   );
 };
